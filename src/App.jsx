@@ -11,7 +11,7 @@ import Landing from './pages/Landing';
 function App() {
   return (
     <Router>
-      <div className="lf-theme flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow">
           <Routes>
