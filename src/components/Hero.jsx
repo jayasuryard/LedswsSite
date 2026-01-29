@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Hero = () => {
   const [email, setEmail] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger animations after component mounts
+    setIsVisible(true);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -10,7 +16,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-teal-50/40">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-teal-50/40 sticky top-0 z-0">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-teal-400/20 rounded-full blur-3xl animate-pulse" />
@@ -24,8 +30,12 @@ const Hero = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 lg:pt-28 lg:pb-20">
         <div className="text-center max-w-4xl mx-auto mb-12 lg:mb-16">
-          {/* Launch Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 backdrop-blur-sm rounded-full mb-6 border border-teal-200/50">
+          {/* Launch Badge - Rise Down Animation */}
+          <div 
+            className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 backdrop-blur-sm rounded-full mb-6 border border-teal-200/50 transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+          >
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600"></span>
@@ -35,8 +45,12 @@ const Hero = () => {
             </span>
           </div>
 
-          {/* Main Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-[1.1] mb-6 tracking-tight">
+          {/* Main Headline - Rise Up Animation */}
+          <h1 
+            className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-[1.1] mb-6 tracking-tight transition-all duration-700 delay-100 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
             Stop Losing Leads.
             <span className="block mt-2">
               Start{' '}
@@ -59,14 +73,23 @@ const Hero = () => {
             </span>
           </h1>
 
-          {/* Subheadline */}
-          <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+          {/* Subheadline - Rise Up Animation with delay */}
+          <p 
+            className={`text-lg sm:text-xl lg:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed transition-all duration-700 delay-200 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
             One workspace to capture leads, nurture prospects, and close sales — 
             <span className="text-gray-800 font-medium"> without juggling 10 different tools.</span>
           </p>
 
-          {/* Waitlist Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mb-6">
+          {/* Waitlist Form - Rise Up Animation with delay */}
+          <form 
+            onSubmit={handleSubmit} 
+            className={`flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mb-6 transition-all duration-700 delay-300 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
             <div className="flex-1 relative">
               <input
                 type="email"
@@ -88,8 +111,12 @@ const Hero = () => {
             </button>
           </form>
 
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
+          {/* Trust Indicators - Rise Up Animation with delay */}
+          <div 
+            className={`flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500 transition-all duration-700 delay-[400ms] ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -112,12 +139,36 @@ const Hero = () => {
         </div>
 
         {/* Laptop Mockup with Dashboard */}
-        <div className="relative max-w-5xl mx-auto">
+        <div 
+          className={`relative max-w-5xl mx-auto transition-all duration-1000 delay-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+          }`}
+        >
           <div className="absolute inset-0 bg-gradient-to-t from-teal-500/20 via-transparent to-transparent blur-3xl -z-10 scale-110" />
           
-          {/* Laptop Frame */}
-          <div className="relative">
-            <div className="relative bg-gray-900 rounded-t-3xl p-3 pb-0 shadow-2xl">
+          {/* Laptop Frame with Border Beam */}
+          <div className="relative group">
+            {/* Border Beam Effect */}
+            <div className="absolute -inset-[2px] rounded-t-3xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
+                   style={{
+                     background: 'conic-gradient(from 0deg, transparent 0deg, #14b8a6 30deg, #06b6d4 60deg, transparent 90deg)',
+                     animation: 'spin 4s linear infinite'
+                   }}
+              />
+            </div>
+            
+            {/* Animated Border Beam */}
+            <div className="absolute -inset-[2px] rounded-t-3xl overflow-hidden pointer-events-none">
+              <div className="absolute w-24 h-24 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 rounded-full blur-sm"
+                   style={{
+                     offsetPath: 'path("M 0,0 L 1200,0 L 1200,600 L 0,600 Z")',
+                     animation: 'border-beam 6s linear infinite'
+                   }}
+              />
+            </div>
+            
+            <div className="relative bg-gray-900 rounded-t-3xl p-3 pb-0 shadow-2xl border-2 border-gray-800 overflow-hidden">
               <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-gray-700 rounded-full flex items-center justify-center">
                 <div className="w-1.5 h-1.5 bg-gray-600 rounded-full" />
               </div>
@@ -282,6 +333,58 @@ const Hero = () => {
         }
         .animate-float {
           animation: float 4s ease-in-out infinite;
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes border-beam {
+          0% { 
+            top: 0;
+            left: -100px;
+          }
+          25% {
+            top: 0;
+            left: calc(100% + 100px);
+          }
+          25.01% {
+            top: 0;
+            left: calc(100% + 100px);
+            opacity: 0;
+          }
+          25.02% {
+            top: -100px;
+            left: 100%;
+            opacity: 1;
+          }
+          50% {
+            top: calc(100% + 100px);
+            left: 100%;
+          }
+          50.01% {
+            opacity: 0;
+          }
+          50.02% {
+            top: 100%;
+            left: calc(100% + 100px);
+            opacity: 1;
+          }
+          75% {
+            top: 100%;
+            left: -100px;
+          }
+          75.01% {
+            opacity: 0;
+          }
+          75.02% {
+            top: calc(100% + 100px);
+            left: 0;
+            opacity: 1;
+          }
+          100% {
+            top: -100px;
+            left: 0;
+          }
         }
       `}</style>
     </section>

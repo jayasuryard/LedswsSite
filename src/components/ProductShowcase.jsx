@@ -54,8 +54,34 @@ const ProductShowcase = () => {
           <div className="relative max-w-5xl mx-auto">
             {/* Monitor Frame */}
             <div className="relative">
-              {/* Screen Bezel */}
-              <div className="bg-gray-800 rounded-3xl p-4 shadow-2xl border border-gray-700">
+              {/* Screen Bezel with Border Beam */}
+              <div className="relative bg-gray-800 rounded-3xl p-4 shadow-2xl border border-gray-700 overflow-hidden">
+                {/* Border Beam Animation */}
+                <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+                  <div className="absolute inset-[-2px] rounded-3xl">
+                    <div 
+                      className="absolute w-40 h-40 rounded-full opacity-60"
+                      style={{
+                        background: 'conic-gradient(from 0deg, transparent, #14b8a6, #06b6d4, transparent)',
+                        animation: 'spin 4s linear infinite',
+                        top: '0',
+                        left: '0',
+                        transformOrigin: '50% 50%',
+                      }}
+                    />
+                  </div>
+                  <div 
+                    className="absolute inset-0"
+                    style={{
+                      background: 'linear-gradient(90deg, transparent, transparent 40%, rgba(20, 184, 166, 0.4) 50%, transparent 60%, transparent)',
+                      animation: 'border-beam 3s linear infinite',
+                    }}
+                  />
+                </div>
+                
+                {/* Corner Glows */}
+                <div className="absolute -top-2 -left-2 w-32 h-32 bg-teal-500/20 rounded-full blur-2xl animate-pulse" />
+                <div className="absolute -bottom-2 -right-2 w-32 h-32 bg-cyan-500/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }} />
                 {/* Screen Content */}
                 <div className="bg-gray-900 rounded-2xl overflow-hidden">
                   {/* Browser Bar */}

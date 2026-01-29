@@ -1,4 +1,38 @@
+import { useEffect, useRef, useState } from 'react';
+
 const ProblemSolution = () => {
+  const [translateY, setTranslateY] = useState(0);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      // Get the Hero section height (approximately the viewport height)
+      const heroHeight = windowHeight;
+      
+      // Start parallax when scrolling begins
+      // The Problem section will translate up as we scroll
+      // Maximum translation equals the Hero section height for full overlap
+      const maxTranslate = heroHeight * 0.85; // 85% of hero height for full overlap
+      
+      // Calculate translation based on scroll position
+      // Start translating when scroll begins, complete when scrolled past hero
+      const progress = Math.min(1, Math.max(0, scrollY / heroHeight));
+      const translate = progress * maxTranslate;
+      
+      setTranslateY(translate);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const problems = [
     {
       icon: (
@@ -78,7 +112,17 @@ const ProblemSolution = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-28 bg-white relative overflow-hidden">
+    <section 
+      ref={sectionRef}
+      className="py-20 lg:py-28 bg-white relative overflow-hidden z-10 rounded-t-[3rem]"
+      style={{
+        transform: `translateY(-${translateY}px)`,
+        marginBottom: `-${translateY}px`,
+        boxShadow: translateY > 0 
+          ? `0 -20px 60px -15px rgba(0,0,0,${Math.min(0.15, translateY / 500)})`
+          : 'none',
+      }}
+    >
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />

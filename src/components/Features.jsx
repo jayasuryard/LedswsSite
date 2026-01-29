@@ -1,4 +1,8 @@
+import { useState } from 'react';
+
 const Features = () => {
+  const [hoveredFeature, setHoveredFeature] = useState(null);
+  
   const features = [
     {
       icon: (
@@ -10,6 +14,7 @@ const Features = () => {
       description: 'Every message from email, social media, and web forms lands in one organized inbox. Never miss a lead again.',
       gradient: 'from-teal-500 to-cyan-500',
       bgGradient: 'from-teal-50 to-cyan-50',
+      beamColor: '#14b8a6',
     },
     {
       icon: (
@@ -21,6 +26,7 @@ const Features = () => {
       description: 'Drag-and-drop leads through customizable stages. See your entire sales funnel at a glance and never lose track.',
       gradient: 'from-purple-500 to-pink-500',
       bgGradient: 'from-purple-50 to-pink-50',
+      beamColor: '#a855f7',
     },
     {
       icon: (
@@ -32,6 +38,7 @@ const Features = () => {
       description: 'Create beautiful campaigns and automated sequences that nurture leads while you focus on closing deals.',
       gradient: 'from-orange-500 to-amber-500',
       bgGradient: 'from-orange-50 to-amber-50',
+      beamColor: '#f97316',
     },
     {
       icon: (
@@ -43,6 +50,7 @@ const Features = () => {
       description: 'Schedule posts, monitor mentions, and engage with your audience across all platforms from one dashboard.',
       gradient: 'from-blue-500 to-indigo-500',
       bgGradient: 'from-blue-50 to-indigo-50',
+      beamColor: '#3b82f6',
     },
     {
       icon: (
@@ -54,6 +62,7 @@ const Features = () => {
       description: 'Build high-converting forms in minutes. Embed anywhere and track exactly which forms bring the best leads.',
       gradient: 'from-green-500 to-emerald-500',
       bgGradient: 'from-green-50 to-emerald-50',
+      beamColor: '#22c55e',
     },
     {
       icon: (
@@ -65,8 +74,18 @@ const Features = () => {
       description: 'Real-time dashboards show you exactly what\'s working. Make data-driven decisions to grow faster.',
       gradient: 'from-rose-500 to-red-500',
       bgGradient: 'from-rose-50 to-red-50',
+      beamColor: '#f43f5e',
     },
   ];
+
+  // Central hub icon
+  const CenterIcon = () => (
+    <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl flex items-center justify-center shadow-xl shadow-teal-500/30">
+      <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    </div>
+  );
 
   return (
     <section id="features" className="py-20 lg:py-28 bg-gradient-to-b from-gray-50 to-white relative">
@@ -89,7 +108,129 @@ const Features = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {/* Animated Beam Section - Desktop */}
+        <div className="hidden lg:block relative mb-20">
+          <div className="relative h-[500px] max-w-4xl mx-auto">
+            {/* SVG for all beam lines */}
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              style={{ overflow: 'visible' }}
+            >
+              <defs>
+                {features.map((feature, index) => (
+                  <linearGradient key={`gradient-${index}`} id={`beam-gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor={feature.beamColor} stopOpacity="0.8" />
+                    <stop offset="100%" stopColor={feature.beamColor} stopOpacity="0.2" />
+                  </linearGradient>
+                ))}
+              </defs>
+              
+              {/* Draw lines from center to each node */}
+              {features.map((feature, index) => {
+                const angle = (index * 60) - 90;
+                const radius = 180;
+                const centerX = 50; // percentage
+                const centerY = 50; // percentage
+                const endX = centerX + (Math.cos((angle * Math.PI) / 180) * 18); // percentage offset
+                const endY = centerY + (Math.sin((angle * Math.PI) / 180) * 36); // percentage offset (adjusted for aspect ratio)
+                
+                return (
+                  <g key={`beam-${index}`}>
+                    {/* Main beam line */}
+                    <line
+                      x1={`${centerX}%`}
+                      y1={`${centerY}%`}
+                      x2={`${endX}%`}
+                      y2={`${endY}%`}
+                      stroke={feature.beamColor}
+                      strokeWidth={hoveredFeature === index ? "3" : "2"}
+                      strokeOpacity={hoveredFeature === index ? "0.8" : "0.3"}
+                      strokeDasharray={hoveredFeature === index ? "none" : "4 4"}
+                      className="transition-all duration-300"
+                    />
+                    {/* Animated dot on hover */}
+                    {hoveredFeature === index && (
+                      <circle r="5" fill={feature.beamColor}>
+                        <animate
+                          attributeName="cx"
+                          values={`${centerX}%;${endX}%`}
+                          dur="1s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="cy"
+                          values={`${centerY}%;${endY}%`}
+                          dur="1s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
+            
+            {/* Center Hub */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+              <CenterIcon />
+            </div>
+            
+            {/* Feature Nodes */}
+            {features.map((feature, index) => {
+              const angle = (index * 60) - 90;
+              const radius = 180;
+              const x = Math.cos((angle * Math.PI) / 180) * radius;
+              const y = Math.sin((angle * Math.PI) / 180) * radius;
+              
+              return (
+                <div
+                  key={feature.title}
+                  className="absolute left-1/2 top-1/2 z-20"
+                  style={{
+                    transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`
+                  }}
+                  onMouseEnter={() => setHoveredFeature(index)}
+                  onMouseLeave={() => setHoveredFeature(null)}
+                >
+                  {/* Feature Node */}
+                  <div 
+                    className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg cursor-pointer transition-all duration-300 bg-white border-2 ${
+                      hoveredFeature === index ? 'scale-125 shadow-2xl' : 'scale-100'
+                    }`}
+                    style={{
+                      borderColor: hoveredFeature === index ? feature.beamColor : '#e5e7eb',
+                    }}
+                  >
+                    <div className="text-gray-700">
+                      {feature.icon}
+                    </div>
+                  </div>
+                  
+                  {/* Tooltip on Hover */}
+                  <div 
+                    className={`absolute z-30 w-64 p-4 bg-white rounded-2xl shadow-2xl border border-gray-100 transition-all duration-300 ${
+                      hoveredFeature === index ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'
+                    }`}
+                    style={{
+                      left: x > 0 ? '100%' : 'auto',
+                      right: x <= 0 ? '100%' : 'auto',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      marginLeft: x > 0 ? '12px' : 0,
+                      marginRight: x <= 0 ? '12px' : 0,
+                    }}
+                  >
+                    <h4 className="font-bold text-gray-900 mb-2">{feature.title}</h4>
+                    <p className="text-sm text-gray-600">{feature.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Mobile/Tablet Grid (original) */}
+        <div className="grid md:grid-cols-2 lg:hidden gap-6 lg:gap-8">
           {features.map((feature) => (
             <div
               key={feature.title}

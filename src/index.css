@@ -39,3 +39,215 @@ html {
 body {
   overflow-x: hidden;
 }
+
+/* ===== CUSTOM ANIMATIONS ===== */
+
+/* Rise Up Animation */
+@keyframes rise-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Rise Down Animation */
+@keyframes rise-down {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Border Beam Animation */
+@keyframes border-beam {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+/* Shine Effect Animation */
+@keyframes shine {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* Shine Border Rotation */
+@keyframes shine-border-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Text Highlight Animation */
+@keyframes highlight-draw {
+  from {
+    background-size: 0% 40%;
+  }
+  to {
+    background-size: 100% 40%;
+  }
+}
+
+/* Beam Pulse Animation */
+@keyframes beam-pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Animation Classes */
+.animate-rise-up {
+  animation: rise-up 0.8s ease-out forwards;
+}
+
+.animate-rise-down {
+  animation: rise-down 0.8s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-border-beam {
+  animation: border-beam 4s linear infinite;
+}
+
+.animate-shine {
+  animation: shine 3s linear infinite;
+}
+
+.animate-shine-border {
+  animation: shine-border-rotate 3s linear infinite;
+}
+
+.animate-highlight {
+  background-image: linear-gradient(120deg, #14b8a6 0%, #06b6d4 100%);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 40%;
+  animation: highlight-draw 1s ease-out forwards;
+}
+
+.animate-highlight-orange {
+  background-image: linear-gradient(120deg, #f59e0b 0%, #f97316 100%);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 40%;
+  animation: highlight-draw 1s ease-out forwards;
+}
+
+.animate-highlight-blue {
+  background-image: linear-gradient(120deg, #3b82f6 0%, #6366f1 100%);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 40%;
+  animation: highlight-draw 1s ease-out forwards;
+}
+
+/* Animation Delays */
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+.animation-delay-700 { animation-delay: 700ms; }
+.animation-delay-800 { animation-delay: 800ms; }
+
+/* Initial state for animated elements */
+.animate-on-scroll {
+  opacity: 0;
+}
+
+/* Border Beam Container */
+.border-beam-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-beam-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    transparent 40%,
+    #14b8a6,
+    #06b6d4,
+    transparent 60%,
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shine 3s linear infinite;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Shine Border Card */
+.shine-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-border::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #14b8a6 60deg,
+    #06b6d4 120deg,
+    transparent 180deg
+  );
+  animation: shine-border-rotate 4s linear infinite;
+}
+
+.shine-border::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: inherit;
+}
